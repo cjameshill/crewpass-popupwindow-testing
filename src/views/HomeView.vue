@@ -14,7 +14,7 @@ const openWindow = () => {
 const messages = ref([]);
 onMounted(() => {
   window.addEventListener("message", (message) => {
-      console.log("message: ", message);
+    console.log("message: ", message);
     if (message.origin === popupUrl.value) {
       messages.value.push(message.data);
     }
