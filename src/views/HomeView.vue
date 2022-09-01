@@ -37,6 +37,8 @@ onMounted(() => {
     <p>Full URL: {{ popupFullUrl }}</p>
     <p>Origin: {{ popupOrigin }}</p>
     <h1 class="text-md mt-4">Messages:</h1>
+    <p class="text-md italic animate-pulse" v-if="messages.length === 0">Listening for messages from: {{ popupOrigin }}
+      ...</p>
     <pre v-for="message in messages">{{ message }}</pre>
   </main>
 </template>
