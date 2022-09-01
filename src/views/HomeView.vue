@@ -2,11 +2,19 @@
 import { onMounted, ref, computed } from 'vue';
 const popupUrl = ref("http://127.0.0.1:5173?hello=world");
 const origin = window.location.origin;
-const popupFullUrl = computed(() => {
+const popupFullUrlObject = computed(() => {
   if (!popupUrl.value) return ""
   const url = new URL(popupUrl.value);
   url.searchParams.append("origin", origin);
-  return url.toString();
+  return url;
+})
+const popupFullUrl = computed(() => {
+  if (!popupFullUrlObject.value) return ""
+  return popupFullUrlObject.value?.toString();
+})
+const popupOrigin = computed(() => {
+  if (!popupFullUrlObject.value || !popupFullUrlObject.value) return ""
+  return popupFullUrlObject.value?.origin;
 })
 const openWindow = () => {
   window.open(popupFullUrl.value, 'cpVesselPopup', 'width=700,height=800')
@@ -14,8 +22,8 @@ const openWindow = () => {
 const messages = ref([]);
 onMounted(() => {
   window.addEventListener("message", (message) => {
-    console.log("message: ", message);
-    if (message.origin === popupUrl.value) {
+    if (message.origin === popupOrigin.value) {
+      console.log("message: ", message);
       messages.value.push(message.data);
     }
   })
@@ -26,7 +34,8 @@ onMounted(() => {
     <h1 class="text-lg font-medium">Open Popup Window and Message Testing</h1>
     <input v-model="popupUrl" type="text" class="p-4 w-full rounded-xl border-2 border-gray-200" placeholder="URL" />
     <button @click="openWindow" class="p-4 bg-gray-100 hover:bg-gray-300 rounded-xl">Open Window</button>
-    <p>{{ popupFullUrl }}</p>
+    <p>Full URL: {{ popupFullUrl }}</p>
+    <p>Origin: {{ popupOrigin }}</p>
     <h1 class="text-md mt-4">Messages:</h1>
     <pre v-for="message in messages">{{ message }}</pre>
   </main>
