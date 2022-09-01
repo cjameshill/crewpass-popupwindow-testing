@@ -9,7 +9,7 @@ const popupFullUrl = computed(() => {
   return url.toString();
 })
 const openWindow = () => {
-  window.open(`popupFullUrl.value`, 'cpVesselPopup', 'width=700,height=800')
+  window.open(popupFullUrl.value, 'cpVesselPopup', 'width=700,height=800')
 }
 const messages = ref([]);
 onMounted(() => {
