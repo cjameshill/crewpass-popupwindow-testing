@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-const popupUrl = ref("http://127.0.0.1:5173?hello=world");
+const popupUrl = ref("https://crewpass-testing-web.netlify.app/crew-messages");
 const origin = window.location.origin;
 const popupFullUrlObject = computed(() => {
   if (!popupUrl.value) return ""
